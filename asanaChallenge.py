@@ -1,4 +1,5 @@
 import pandas as pd
+import collections
 
 
 # A user table ("takehome_users") with data on 12,000 users who signed up for the product in the last two years. This table includes:
@@ -23,7 +24,10 @@ import pandas as pd
 user=pd.read_csv('takehome_users.csv')
 engage= pd.read_csv('takehome_user_engagement.csv')
 
+engage.sort_values('user_id')
 
-print(user.head())
-print(engage.head())
-
+# test=engage.groupby('user_id')
+# count=collections.Counter(engage['user_id'])
+is_adopted = engage.groupby(['user_id']).size().to_frame('size').reset_index()
+engage=engage[engage['user_id'] in is_adopted[is_adopted['size']>=3]['user_id']]
+print(len(engage))
