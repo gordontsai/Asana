@@ -29,5 +29,5 @@ engage.sort_values('user_id')
 # test=engage.groupby('user_id')
 # count=collections.Counter(engage['user_id'])
 is_adopted = engage.groupby(['user_id']).size().to_frame('size').reset_index()
-engage=engage[engage['user_id'] in is_adopted[is_adopted['size']>=3]['user_id']]
+engage=engage[engage['user_id'].isin(is_adopted[is_adopted['size']>=3]['user_id'])]
 print(len(engage))
